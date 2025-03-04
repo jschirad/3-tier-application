@@ -11,7 +11,7 @@ env:
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   BACKEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-api
   FRONTEND_IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/basic3tier-ui
-  VERSION: ${{ github.sha }}
+  VERSION: 1.0.0-${{ github.sha }}
 
 jobs:
   build-and-test:
@@ -26,20 +26,25 @@ jobs:
       with:
         dotnet-version: '7.0.x'
 
+    - name: Set version
+      run: |
+        cd api/Basic3TierAPI
+        dotnet build /p:Version=${{ env.VERSION }}
+
     - name: Restore dependencies
       run: |
         cd api/Basic3TierAPI
-        dotnet restore Basic3TierAPI.sln
+        dotnet restore
 
     - name: Build
       run: |
         cd api/Basic3TierAPI
-        dotnet build Basic3TierAPI.sln --no-restore
+        dotnet build --no-restore
 
     - name: Test
       run: |
         cd api/Basic3TierAPI
-        dotnet test Basic3TierAPI.sln --no-build --verbosity normal
+        dotnet test --no-build --verbosity normal
 
     - name: Security scan with Snyk
       uses: snyk/actions/dotnet@master

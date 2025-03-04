@@ -28,17 +28,17 @@ jobs:
 
     - name: Restore dependencies
       run: |
-        cd api
+        cd api/Basic3TierAPI
         dotnet restore Basic3TierAPI.sln
 
     - name: Build
       run: |
-        cd api
+        cd api/Basic3TierAPI
         dotnet build Basic3TierAPI.sln --no-restore
 
     - name: Test
       run: |
-        cd api
+        cd api/Basic3TierAPI
         dotnet test Basic3TierAPI.sln --no-build --verbosity normal
 
     - name: Security scan with Snyk

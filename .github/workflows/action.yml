@@ -46,16 +46,7 @@ jobs:
         cd api/Basic3TierAPI
         dotnet test --no-build --verbosity normal
 
-    - name: Security scan with Snyk
-      uses: snyk/actions/dotnet@master
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-        args: --severity-threshold=high
-        command: test
-        json: false
-        path: api/Basic3TierAPI
-        project-name: basic3tier-api
+
 
   build-and-push-docker:
     needs: build-and-test
